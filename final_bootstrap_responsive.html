@@ -1,0 +1,1850 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head><link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Prithvi Rakshak — Website Blueprint (Demo)</title>
+<meta content="Prithvi Rakshak — Compost &amp; Circular Organics: product &amp; solutions site demo. Interactive single-file prototype." name="description"/>
+<meta content="#0E6C3F" name="theme-color"/>
+<meta content="Team Prithvi Rakshak (Prabhkirat Singh)" name="author"/>
+<!-- Basic SEO & social -->
+<meta content="Prithvi Rakshak — Compost &amp; Circular Organics" property="og:title"/>
+<meta content="Smart, odor-free composting solutions — demo single-file site." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<!-- System fonts only — no external fonts -->
+<style>
+    /* ============================================================
+       Design tokens (colors, spacing, type scale) — themeable
+       ============================================================ */
+    :root{
+      --space-xs:6px; --space-s:10px; --space-m:16px; --space-l:24px; --space-xl:40px;
+      --radius:10px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      --transition-fast:200ms; --transition-med:400ms; --transition-slow:700ms;
+      --accent: #0F4CFF;
+      --green-700: #0E6C3F; --leaf: #7AC142; --soil: #7B5E57; --offwhite:#F6F9F4;
+      --matte-1:#E9F6EE; --matte-2:#F1F7F4;
+      --text: #102a1f; --muted:#5b6b63;
+      --max-width:1200px;
+      --elevation-1: 0 6px 18px rgba(6,19,11,0.08), inset 0 1px 0 rgba(255,255,255,0.02);
+      --glass: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      --duration: 600ms;
+    }
+
+    /* Dark theme tokens */
+    
+/* 🌙 Enhanced Dark Theme — Cool & Modern Look */
+html[data-theme="dark"] {
+  --text: #E8F9EE;                /* Soft mint white text */
+  --muted: #9CC8B5;               /* Muted desaturated teal */
+  --offwhite: #04110E;            /* Deep greenish black background */
+  --matte-1: #0B1E18;             /* Card surface */
+  --matte-2: #0F2A22;             /* Base layer */
+  --accent: #48E0C2;              /* Aqua-teal accent */
+  --leaf: #48E06D;                /* Vivid leaf green for gradients */
+  --green-700: #1B7F5F;           /* Primary green base */
+  --glass: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(0,0,0,0.08));
+}
+
+/* Optional: subtle glow and depth for dark mode elements */
+html[data-theme="dark"] body {
+  background: radial-gradient(circle at 30% 10%, #0F2A22 0%, #04110E 100%);
+  color: var(--text);
+}
+
+html[data-theme="dark"] header.site-header {
+  background: rgba(10, 30, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(72, 224, 194, 0.08);
+}
+
+html[data-theme="dark"] .card {
+  background: linear-gradient(180deg, rgba(20,40,30,0.9), rgba(12,26,20,0.8));
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+html[data-theme="dark"] .btn {
+  background: var(--accent);
+  color: #04110E;
+  box-shadow: 0 0 16px rgba(72, 224, 194, 0.4);
+}
+html[data-theme="dark"] .btn,
+html[data-theme="dark"] .btn * {
+  color: #04110E !important; /* Ensure dark button text stays visible */
+}
+
+html[data-theme="dark"] .btn.ghost,
+html[data-theme="dark"] .btn.ghost * {
+  color: #04110e !important; /* Accent text on ghost buttons */
+}
+
+html[data-theme="dark"] .btn.ghost {
+  border: 1px solid rgba(72,224,194,0.4);
+  color: var(--accent);
+}
+
+html[data-theme="dark"] .type-animate {
+  background: linear-gradient(90deg, var(--accent), var(--leaf));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+html[data-theme="dark"] .chat-btn {
+  background: var(--accent);
+  box-shadow: 0 0 20px rgba(72,224,194,0.4);
+}
+
+
+    /* Accessibility: show focus outlines */
+    :focus{ outline: 3px solid rgba(15,76,255,0.15); outline-offset:2px; }
+    :focus-visible{ outline-color:var(--accent); outline-style:solid; }
+
+    /* Reset + base */
+    *, *::before, *::after{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--font-sans);
+      color:var(--text);
+      background: linear-gradient(180deg,var(--matte-2) 0%, transparent 20%) , var(--offwhite);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Layout container */
+    .site{ max-width:var(--max-width); margin:0 auto; padding:0 var(--space-m); }
+
+    /* Skip link for accessibility */
+    .skip-link{
+      position: absolute; left: -9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip-link:focus{
+      left: var(--space-m); top: var(--space-m); width:auto; height:auto; padding:var(--space-s) var(--space-m);
+      background:var(--accent); color:white; border-radius:6px; z-index:9999;
+    }
+
+    /* ============================
+       Header / Nav
+       ============================ */
+    header.site-header{
+      position:sticky; top:0; z-index:1200;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+      box-shadow: 0 2px 10px rgba(3,9,6,0.04);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    html[data-theme="dark"] header.site-header{
+      background: linear-gradient(180deg, rgba(3,8,6,0.6), rgba(3,6,3,0.45));
+      border-bottom-color: rgba(255,255,255,0.03);
+    }
+    .nav-inner{
+      display:flex; align-items:center; gap:var(--space-m); padding:10px 0;
+      max-width:var(--max-width); margin:0 auto;
+    }
+
+    /* Brand */
+    .brand{
+      display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text);
+      font-weight:700; letter-spacing:0.4px;
+    }
+    .brand .logo{
+      width:44px; height:44px; display:inline-grid; place-items:center;
+      background:var(--glass); border-radius:8px; padding:6px; box-shadow:var(--elevation-1);
+    }
+    .brand svg{ width:28px; height:28px; display:block; }
+
+    /* Nav links */
+    nav.main-nav{ display:flex; gap:12px; margin-left:auto; align-items:center; }
+    .nav-list{ list-style:none; display:flex; gap:8px; margin:0; padding:0; align-items:center;}
+    .nav-item a{
+      display:inline-block; padding:8px 12px; border-radius:8px; color:var(--muted);
+      text-decoration:none; font-weight:600; font-size:0.95rem;
+      transition: all var(--transition-fast) ease;
+    }
+    .nav-item a[aria-current="true"], .nav-item a:hover{
+      color:var(--text);
+      transform:translateY(-3px);
+      background: linear-gradient(180deg, rgba(10,10,10,0.02), rgba(255,255,255,0.01));
+    }
+
+    /* Theme toggle + CTA styles */
+    .controls{ display:flex; gap:8px; align-items:center; margin-left:8px; }
+    .btn{
+      display:inline-flex; gap:8px; align-items:center; justify-content:center;
+      padding:8px 14px; border-radius:10px; cursor:pointer; border:0; background:var(--green-700);
+      color:white; font-weight:700; box-shadow: 0 6px 20px rgba(10,20,10,0.08);
+    }
+    .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(0,0,0,0.06); font-weight:600; }
+
+    /* Hamburger for mobile */
+    .hamburger{
+      display:none; width:44px; height:44px; align-items:center; justify-content:center; border-radius:8px;
+      background:var(--glass); border:0; cursor:pointer;
+    }
+    .hamburger[aria-expanded="true"]{ box-shadow: 0 8px 30px rgba(5,20,10,0.08); }
+
+    /* Mobile menu overlay */
+    .mobile-panel{
+      display:none;
+      position:fixed; inset: 0 0 0 0; z-index:1400; background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.6));
+      align-items:flex-start; justify-content:center; padding:60px 20px;
+    }
+    .mobile-panel .panel-inner{
+      background:var(--offwhite); border-radius:12px; width:100%; max-width:720px; padding:20px;
+    }
+    html[data-theme="dark"] .mobile-panel .panel-inner{ background: #07120f; color:var(--text); }
+
+    /* ============================
+       Hero
+       ============================ */
+    .hero{
+      padding:var(--space-l) 0; display:grid; grid-template-columns: 1fr 420px; gap:30px; align-items:center;
+    }
+    .hero .lead{ max-width:60ch; }
+    .kicker{ display:inline-block; background:var(--leaf); color:#00321a; padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85rem; }
+    .hero h1{ margin:12px 0 14px; font-size:2rem; line-height:1.05; letter-spacing:-0.6px; }
+    .hero p.lead{ color:var(--muted); margin-bottom:18px; font-size:1.05rem; }
+
+    .hero-visual{
+      background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.02));
+      border-radius:16px; padding:18px; box-shadow:var(--elevation-1); min-height:280px;
+      display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+    }
+
+    /* CTA strip */
+    .cta-row{ display:flex; gap:10px; align-items:center; margin-top:18px; flex-wrap:wrap; }
+    .trust-strip{ display:flex; gap:10px; align-items:center; margin-top:18px; color:var(--muted); font-size:0.9rem; }
+
+    /* ============================
+       Sections (start hidden when JS enabled)
+       ============================ */
+    main{ padding-bottom:80px; }
+    main .section{
+      margin: var(--space-l) 0; padding: var(--space-l); border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+      box-shadow: var(--elevation-1); overflow:hidden;
+      /* hidden by default for JS-enabled mode — will be shown via .is-visible */
+      opacity: 0; transform: translateY(20px) scale(.98); pointer-events:none; height:0; padding-top:0; padding-bottom:0;
+    }
+
+    /* When JS is disabled, show all sections normally */
+    .no-js main .section{
+      opacity:1; transform:none; pointer-events:auto; height:auto; padding:var(--space-l);
+      transition:none;
+    }
+
+    /* Visible/emerged sections (animation) */
+    .section.is-visible{
+      opacity:1; transform:none; pointer-events:auto; height:auto; padding:var(--space-l);
+      transition: opacity var(--duration) cubic-bezier(.2,.9,.2,1), transform var(--duration) cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* Add a 'reveal' keyframe to allow restartable animation using class toggling */
+    .section.animate{
+      animation: sectionPop var(--duration) cubic-bezier(.16,.85,.24,1);
+    }
+    @keyframes sectionPop{
+      0%{ opacity:0; transform: translateY(20px) scale(.96); filter: blur(6px); }
+      60%{ opacity:1; transform: translateY(-6px) scale(1.02); filter: blur(0); }
+      100%{ opacity:1; transform:none; }
+    }
+
+    /* Section header */
+    .section__header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .section h2{ margin:0; font-size:1.25rem; }
+    .section .meta{ color:var(--muted); font-size:0.95rem; }
+
+    /* Grid content patterns for product and solutions */
+    .grid-3{ display:grid; grid-template-columns: repeat(3,1fr); gap:14px; }
+    .card{ background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3)); padding:14px; border-radius:10px; box-shadow: 0 8px 20px rgba(14,22,12,0.05); }
+    .card h3{ margin:8px 0 6px; font-size:1rem; }
+    .card p{ color:var(--muted); margin:0; font-size:0.95rem; }
+
+    /* Gallery carousel */
+    .carousel{ position:relative; display:flex; gap:12px; align-items:center; }
+    .carousel-track{ display:flex; gap:12px; overflow:hidden; width:100%; }
+    .slide{ min-width:320px; flex:0 0 auto; border-radius:10px; padding:10px; background:var(--matte-1); box-shadow: var(--elevation-1); }
+    .carousel-controls{ display:flex; gap:8px; align-items:center; margin-left:8px; }
+
+    /* Contact form */
+    .form-row{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .form-control{ display:flex; flex-direction:column; }
+    label{ font-weight:600; font-size:0.95rem; margin-bottom:6px; }
+    input[type="text"], input[type="email"], textarea, select{
+      padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.06); background:transparent;
+    }
+    textarea{ min-height:120px; resize:vertical; }
+
+    /* Toast */
+    .toast{
+      position:fixed; right:20px; bottom:20px; background:var(--green-700); color:white; padding:12px 18px; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.15); transform:translateY(12px); opacity:0; pointer-events:none;
+      transition: all 300ms ease;
+    }
+    .toast.show{ transform:none; opacity:1; pointer-events:auto; }
+
+    /* Floating chat */
+    .chat-btn{
+      position:fixed; right:20px; bottom:92px; z-index:1500; width:56px; height:56px; border-radius:50%; display:grid; place-items:center; background:var(--accent); color:white; box-shadow:0 12px 30px rgba(15,76,255,0.14); border:0; cursor:pointer;
+    }
+    .chat-panel{ position:fixed; right:20px; bottom:160px; width:360px; max-width:92vw; background:var(--offwhite); border-radius:12px; box-shadow: 0 18px 50px rgba(5,10,8,0.2); overflow:hidden; display:none; z-index:1600; }
+    html[data-theme="dark"] .chat-panel{ background:#07120f; color:var(--text); }
+    .chat-panel.open{ display:block; }
+
+    /* Chat conversation */
+    .chat-messages{ padding:12px; max-height:320px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+    .msg{ max-width:80%; padding:10px 12px; border-radius:10px; }
+    .msg.bot{ align-self:flex-start; background: #e6f3e9; color: #012a12; }
+    .msg.user{ align-self:flex-end; background: #0f4cff; color:white; }
+
+    /* Footer */
+    footer.site-footer{ margin-top:40px; padding:20px 0; border-top:1px solid rgba(0,0,0,0.03); color:var(--muted); }
+    .footer-inner{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width:720px){
+      .brand .brand-text{ display:none; }
+      .nav-list{ display:none; }
+      .hamburger{ display:inline-flex; margin-left:auto; }
+      .mobile-panel{ display:flex; }
+      .grid-3{ grid-template-columns:1fr; }
+      .form-row{ grid-template-columns:1fr; }
+      .hero-visual{ min-height:180px; }
+    }
+
+    /* Typography effects */
+    .type-animate{ display:inline-block; background:linear-gradient(90deg,var(--accent),var(--leaf)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; animation: shimmer 3.2s linear infinite; background-size:200% 100%; }
+    @keyframes shimmer{ 0%{ background-position:0% 0% } 100%{ background-position:200% 0% } }
+
+    /* small helpers */
+    .muted{ color:var(--muted); }
+    .visually-hidden{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  
+    /* === FIX: All sections start below header, remove offset issues === */
+    main {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+        position: relative;
+    }
+    .section {
+        margin: 0 auto !important;
+        padding-top: 60px !important; /* ensures visible section starts below sticky header */
+        padding-bottom: 40px !important;
+        transform: none !important;
+        height: auto !important;
+    }
+    .section.is-visible {
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+        position: relative;
+        top: 0 !important;
+    }
+    .section:not(.is-visible) {
+        display: none !important; /* hide inactive ones to avoid layout shifts */
+    }
+    header.site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1200;
+    }
+    body {
+        overflow-x: hidden;
+    }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header" role="banner">
+<div class="nav-inner site">
+<a aria-label="Prithvi Rakshak — Home" class="brand" href="#home" id="brandLink">
+<span aria-hidden="true" class="logo">
+<!-- inline leaf logo -->
+<svg aria-hidden="true" role="img" viewbox="0 0 64 64">
+<defs><lineargradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#7AC142"></stop><stop offset="1" stop-color="#0E6C3F"></stop></lineargradient></defs>
+<path d="M46 12c-6 6-18 8-26 22S8 60 8 60s12-2 26-14 18-34 12-34z" fill="url(#g1)"></path>
+</svg>
+</span>
+<span class="brand-text">Prithvi Rakshak</span>
+</a>
+<nav aria-label="Main navigation" class="main-nav">
+<ul class="nav-list" id="navList" role="menubar">
+<li class="nav-item" role="none"><a aria-current="false" data-target="home" href="#home" role="menuitem">Home</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="products" href="#products" role="menuitem">Products</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="solutions" href="#solutions" role="menuitem">Solutions</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="impact" href="#impact" role="menuitem">Impact</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="learn" href="#learn" role="menuitem">Learn</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="about" href="#about" role="menuitem">About</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="shop" href="#shop" role="menuitem">Shop</a></li>
+<li class="nav-item" role="none"><a aria-current="false" data-target="contact" href="#contact" role="menuitem">Contact</a></li>
+</ul>
+</nav>
+<div aria-label="Global controls" class="controls" role="group">
+<button aria-expanded="false" aria-label="Open menu" class="hamburger" id="hamburger">
+<!-- simple hamburger icon -->
+<svg aria-hidden="true" height="14" viewbox="0 0 18 14" width="18"><rect height="2" rx="1" width="18" y="0"></rect><rect height="2" rx="1" width="18" y="6"></rect><rect height="2" rx="1" width="18" y="12"></rect></svg>
+</button>
+<button aria-pressed="false" class="btn ghost" id="themeToggle" title="Toggle light/dark theme">🌗</button>
+<button class="btn" id="bookDemo" title="Book a demo">Book a Demo</button>
+</div>
+</div>
+<!-- Mobile panel (hidden initially) -->
+<div aria-hidden="true" class="mobile-panel" id="mobilePanel">
+<div aria-label="Mobile menu" class="panel-inner" role="dialog">
+<button aria-label="Close menu" class="btn ghost" id="mobileClose" style="float:right;">Close</button>
+<nav aria-label="Mobile navigation">
+<ul style="list-style:none;padding:0;margin:30px 0 0 0; display:flex; flex-direction:column; gap:10px;">
+<!-- repeat nav -->
+<li><a data-target="home" href="#home">Home</a></li>
+<li><a data-target="products" href="#products">Products</a></li>
+<li><a data-target="solutions" href="#solutions">Solutions</a></li>
+<li><a data-target="impact" href="#impact">Impact</a></li>
+<li><a data-target="learn" href="#learn">Learn</a></li>
+<li><a data-target="about" href="#about">About</a></li>
+<li><a data-target="shop" href="#shop">Shop</a></li>
+<li><a data-target="contact" href="#contact">Contact</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</header>
+<main class="site" id="main" tabindex="-1">
+<!-- HERO -->
+<section aria-labelledby="homeHeading" class="section" data-section="" id="home">
+<div class="section__header">
+<h2 id="homeHeading">Home — Waste belongs in soil, not in bins.</h2>
+<div class="meta">Owner: Team Prithvi Rakshak — <strong>Prabhkirat Singh|Abhishek Dhanda
+        </strong></div>
+</div>
+<div class="hero">
+<div>
+<span class="kicker">Smart, local, proven</span>
+<h1><span class="type-animate">Turn wet waste into living soil — without the smell.</span></h1>
+<p class="lead">Smart, odor-free composting that turns organic waste into living soil — faster, cleaner, measurable. Build trust &amp; capture leads with demos and pilots in cities like Ludhiana and beyond.</p>
+<div class="cta-row">
+<button class="btn" data-action="book-demo">Book a Demo</button>
+<button class="btn ghost" data-action="see-impact">See Impact</button>
+<button class="btn ghost" id="shopNow">Shop (WhatsApp)</button>
+</div>
+<div aria-hidden="true" class="trust-strip">
+<span>🏆 SFT Top-20</span>
+<span> • Municipal Collaboration (Ludhiana)</span>
+<span> • ₹1,00,000+ eco-product revenue</span>
+</div>
+<!-- Flagship snapshot -->
+<div class="card" style="margin-top:18px;">
+<h3>Flagship: VermiKendra 2.0</h3>
+<p class="muted">In-vessel, sensor-guided vermicomposting (moisture/temp/airflow). Data-ready for scaling pilots.</p>
+<div style="margin-top:10px;">
+<button class="btn ghost" data-action="how-it-works">How it works</button>
+<button class="btn" data-action="pilot-it">Pilot it</button>
+</div>
+</div>
+</div>
+<div aria-hidden="true" class="hero-visual">
+<!-- decorative heavy inline SVG 'image-like' -->
+<svg aria-hidden="true" height="100%" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 600 420" width="100%">
+<defs>
+<lineargradient id="gA" x1="0" x2="1"><stop offset="0" stop-color="#7AC142"></stop><stop offset="1" stop-color="#0E6C3F"></stop></lineargradient>
+</defs>
+<rect fill="url(#gA)" height="100%" opacity="0.08" rx="16" width="100%" x="0" y="0"></rect>
+<g transform="translate(30,20)">
+<!-- container -->
+<rect fill="#fff" height="180" opacity="0.9" rx="12" width="260" x="0" y="0"></rect>
+<!-- worm-like shapes -->
+<g transform="translate(20,18)">
+<path d="M10 50 q60 -40 120 0 q-30 30 -90 20 q-40 -6 -30 -20z" fill="#7B5E57" opacity="0.12"></path>
+<circle cx="60" cy="60" fill="#7AC142" opacity="0.18" r="24"></circle>
+<circle cx="160" cy="80" fill="#0E6C3F" opacity="0.14" r="24"></circle>
+</g>
+</g>
+<g transform="translate(320,40)">
+<rect fill="#fff" height="280" opacity="0.9" rx="10" width="220" x="0" y="0"></rect>
+<text fill="#0E6C3F" font-size="20" font-weight="700" x="18" y="36">Impact Counters</text>
+<g fill="#0E6C3F" transform="translate(18,90)">
+<text font-size="34" x="0" y="0">12,452</text>
+<text fill="#46674f" font-size="14" x="120" y="0">kg diverted</text>
+</g>
+<g fill="#0E6C3F" transform="translate(18,150)">
+<text font-size="34" x="0" y="0">4,232</text>
+<text fill="#46674f" font-size="14" x="120" y="0">kg compost</text>
+</g>
+</g>
+</svg>
+</div>
+</div>
+</section>
+<!-- PRODUCTS (hidden by default via JS) -->
+<section aria-labelledby="productsHeading" class="section" data-section="" id="products">
+<div class="section__header">
+<h2 id="productsHeading">Products — VermiKendra • IntelliMix • Eco-products</h2>
+<div class="meta">Products overview &amp; quick specs</div>
+</div>
+<div class="grid-3">
+<article aria-labelledby="vkTitle" class="card">
+<svg aria-hidden="true" height="120" role="img" viewbox="0 0 300 120" width="100%">
+<rect fill="url(#gA)" height="120" opacity="0.06" rx="10" width="300"></rect>
+<text fill="#0E6C3F" font-size="15" font-weight="700" x="14" y="28">VermiKendra 2.0</text>
+<text fill="#35593f" font-size="12" x="14" y="56">Sensor-guided in-vessel composting</text>
+</svg>
+<h3 id="vkTitle">VermiKendra 2.0</h3>
+<p>In-vessel, sensor-guided vermicomposting with modular capacity and telemetry-ready add-ons.</p>
+<div style="margin-top:10px; display:flex; gap:8px;">
+<button class="btn ghost" data-action="specs" data-product="VermiKendra">Specs</button>
+<button class="btn" data-action="demo" data-product="VermiKendra">Pilot it</button>
+</div>
+</article>
+<article aria-labelledby="intTitle" class="card">
+<svg aria-hidden="true" height="120" role="img" viewbox="0 0 300 120" width="100%">
+<rect fill="#fff" height="120" opacity="0.9" rx="10" width="300"></rect>
+<text fill="#0E6C3F" font-size="15" font-weight="700" x="14" y="28">Vermi-IntelliMix</text>
+<text fill="#35593f" font-size="12" x="14" y="56">Accelerated mixing &amp; nutrient balance</text>
+</svg>
+<h3 id="intTitle">Vermi-IntelliMix</h3>
+<p>Automated mixing accessory that speeds up cold starts and increases nutrient availability.</p>
+<div style="margin-top:10px; display:flex; gap:8px;">
+<button class="btn ghost" data-action="specs" data-product="IntelliMix">Specs</button>
+<button class="btn" data-action="demo" data-product="IntelliMix">Request Trial</button>
+</div>
+</article>
+<article aria-labelledby="ecoTitle" class="card">
+<svg aria-hidden="true" height="120" role="img" viewbox="0 0 300 120" width="100%">
+<rect fill="#fff" height="120" opacity="0.9" rx="10" width="300"></rect>
+<text fill="#0E6C3F" font-size="15" font-weight="700" x="14" y="28">Eco Products</text>
+<text fill="#35593f" font-size="12" x="14" y="56">Vermicompost • Vermiwash • Vermisticks</text>
+</svg>
+<h3 id="ecoTitle">Eco-products</h3>
+<p>Premium compost, liquid vermiwash and soil enrichers — sold as packs &amp; combos for home &amp; farms.</p>
+<div style="margin-top:10px; display:flex; gap:8px;">
+<button class="btn ghost" data-action="buy" data-product="Compost">Buy / DM</button>
+<button class="btn" data-action="specs" data-product="Eco">More</button>
+</div>
+</article>
+</div>
+</section>
+<!-- SOLUTIONS -->
+<section aria-labelledby="solutionsHeading" class="section" data-section="" id="solutions">
+<div class="section__header">
+<h2 id="solutionsHeading">Solutions — Homes • Schools • Farms • Municipal • Hotels</h2>
+<div class="meta">Use-case templates &amp; conversion-focused blocks</div>
+</div>
+<div aria-hidden="false" class="grid-3">
+<div class="card"><h3>Homes / RWAs</h3><p class="muted">Tidy units, less hauling, community return of compost.</p></div>
+<div class="card"><h3>Schools &amp; Colleges</h3><p class="muted">STEM + zero-waste canteen + campus gardens (teacher guides).</p></div>
+<div class="card"><h3>Farms &amp; Nurseries</h3><p class="muted">Trials for soil health &amp; yield uplift.</p></div>
+</div>
+<div class="card" style="margin-top:14px;">
+<h3>Format: Pain → Solution → Proof → Book a pilot</h3>
+<ul>
+<li><strong>Pain:</strong> Organics to landfill → methane &amp; cost.</li>
+<li><strong>Solution:</strong> In-vessel composting + automation + monitoring.</li>
+<li><strong>Proof:</strong> RWA hauling ↓30%, school diversion pilot, municipal cost savings.</li>
+</ul>
+</div>
+</section>
+<!-- IMPACT -->
+<section aria-labelledby="impactHeading" class="section impact-enhanced" data-section="" id="impact">
+<div class="parallax-bg"></div>
+<div class="scrollytelling-container">
+<div class="left-panel sticky-content">
+<div class="section__header">
+<h2 class="impact-title" id="impactHeading">Impact — <span class="gradient-text">Sustainable Development Goals</span></h2>
+<div class="meta">Scroll to see our measurable contributions unfold 🌿</div>
+</div>
+<div class="outcome-card">
+<div class="outcome-title-placeholder">Scroll to see our impact...</div>
+<div class="outcome-counter-group" data-label="Smart systems deployed" data-sdg="9">
+<div class="outcome-counter" data-target="120">0</div>
+<p class="outcome-label">Smart composting systems deployed</p>
+</div>
+<div class="outcome-counter-group" data-label="Customers engaged" data-sdg="11">
+<div class="outcome-counter" data-target="45">0</div>
+<p class="outcome-label">Urban collaborations &amp; pilots</p>
+</div>
+<div class="outcome-counter-group" data-label="CO₂e avoided" data-sdg="13">
+<div class="outcome-counter" data-target="5032">0</div>
+<p class="outcome-label">kg CO₂e avoided</p>
+</div>
+<div class="outcome-counter-group" data-label="Compost produced" data-sdg="15">
+<div class="outcome-counter" data-target="4232">0</div>
+<p class="outcome-label">kg compost produced</p>
+</div>
+</div>
+</div>
+<div class="right-panel">
+<div class="sdg-step" data-sdg="9">
+<div class="card sdg">
+<h3>SDG 9 — Industry, Innovation &amp; Infrastructure</h3>
+<p class="muted">We promote local composting innovation through sensor-based technology and scalable infrastructure.</p>
+<ul class="sdg-list">
+<li><strong data-list-target="4">0</strong> prototypes built</li>
+<li><strong data-list-target="30">0</strong>+ innovation awards</li>
+<li><strong data-list-target="3">0</strong>+ products launched</li>
+</ul>
+</div>
+</div>
+<div class="sdg-step" data-sdg="11">
+<div class="card sdg">
+<h3>SDG 11 — Sustainable Cities &amp; Communities</h3>
+<p class="muted">We help build cleaner, waste-free communities through data-driven urban composting.</p>
+<ul class="sdg-list">
+<li><strong data-list-target="2000">0</strong> kgs+ of organic waste treated</li>
+<li><strong data-list-target="80">0</strong>% land saved vs pits</li>
+<li><strong data-list-target="2100">0</strong>+ customers engaged</li>
+</ul>
+</div>
+</div>
+<div class="sdg-step" data-sdg="13">
+<div class="card sdg">
+<h3>SDG 13 — Climate Action</h3>
+<p class="muted">We cut methane emissions and lower carbon footprints by composting organic waste locally.</p>
+<ul class="sdg-list">
+<li><strong data-list-target="1">0</strong>.2 tons+ CO₂e avoided</li>
+<li><strong data-list-target="50">0</strong>-60% faster composting</li>
+<li><strong data-list-target="20">0</strong>+ community workshops</li>
+</ul>
+</div>
+</div>
+<div class="sdg-step" data-sdg="15">
+<div class="card sdg">
+<h3>SDG 15 — Life on Land</h3>
+<p class="muted">We restore soil health and biodiversity through nutrient-rich compost and soil-life revival.</p>
+<ul class="sdg-list">
+<li><strong data-list-target="30">0</strong>+ acres of soil restored</li>
+<li><strong data-list-target="100">0</strong>% biodegradable feedstock</li>
+<li><strong data-list-target="300000">0</strong>+ revenue generated</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<style>
+    :root {
+        /* Assuming these are defined elsewhere. If not, define them here: */
+        --green-700: #38a169; /* Example green */
+        --leaf: #68d391; /* Example lighter green */
+        --light-green-bg: #f6f9f4; /* Lightest background */
+    }
+
+    /* Existing styles for impact-enhanced and parallax-bg remain the same */
+    .impact-enhanced {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(180deg, rgba(246,249,244,0.9), rgba(233,246,238,0.8));
+        padding-top: 50px; /* Add some top padding */
+        padding-bottom: 50px; /* Add some bottom padding */
+        min-height: 100vh; /* Ensure there's scroll space */
+    }
+
+    .impact-title {
+        font-size: 1.8rem;
+        animation: fadeSlide 1.6s ease-out both;
+    }
+
+    .gradient-text {
+        background: linear-gradient(90deg, var(--green-700), var(--leaf));
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: shimmer 6s linear infinite;
+        background-size: 200% 100%;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 0 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .parallax-bg::before,
+    .parallax-bg::after {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 160%;
+        top: -30%;
+        left: -50%;
+        background: radial-gradient(circle at 30% 30%, rgba(122,193,66,0.15), transparent 70%),
+                    radial-gradient(circle at 70% 70%, rgba(14,108,63,0.15), transparent 70%);
+        transform: translateY(var(--offset, 0px));
+        z-index: 0;
+        transition: transform 0.2s ease-out;
+    }
+
+    /* --- NEW SPLIT-SCREEN LAYOUT STYLES --- */
+    .scrollytelling-container {
+        display: flex;
+        position: relative;
+        z-index: 10; /* Ensure content is above parallax background */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .left-panel {
+        flex: 1; /* Takes up one part of the space */
+        padding-right: 40px;
+        z-index: 100;
+    }
+
+    .right-panel {
+        flex: 1; /* Takes up one part of the space */
+        /* Adjusted min-height to provide scroll space for 4 steps */
+        min-height: calc(100vh * 3); 
+        padding-top: 50px; 
+        padding-bottom: 50px; 
+    }
+
+    /* Sticky behavior for the left content */
+    .sticky-content {
+        position: sticky;
+        top: 80px; /* Adjust as needed for header/navigation */
+        height: 100vh; /* Use full viewport height for sticky area */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    /* Styles for the individual SDG steps on the right (FIXED SPACING) */
+    .sdg-step {
+        /* Removed min-height to allow card content to define height */
+        display: flex;
+        align-items: center; /* Vertically center the card within its step area */
+        justify-content: center;
+        margin-bottom: 80px; /* Consistent gap between cards */
+    }
+
+    .sdg-step:last-child {
+        margin-bottom: 0; /* No margin after the last step */
+    }
+
+    .card.sdg {
+        background: rgba(255, 255, 255, 0.9);
+        border-left: 6px solid var(--green-700);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0.5; /* Steps start translucent */
+        transform: scale(0.95);
+        width: 100%; /* Ensure card takes full width available */
+        max-width: 500px; /* Limit max width for readability */
+    }
+
+    .sdg-step.active .card.sdg {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* --- OUTCOME CARD STYLES (Left Panel) --- */
+    .outcome-card {
+        background: linear-gradient(180deg, var(--light-green-bg), rgba(255,255,255,0.7));
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 20px;
+        max-width: 400px;
+    }
+    
+    .outcome-title-placeholder {
+        font-size: 1.5rem;
+        color: #718096;
+        padding: 40px 0;
+        transition: opacity 0.5s;
+    }
+    
+    .outcome-counter-group {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        /* Initially hide all counter groups */
+        display: none; 
+    }
+    
+    .outcome-counter-group.active {
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+    }
+
+    .outcome-counter {
+        font-size: 4rem;
+        font-weight: 800;
+        color: var(--green-700);
+        margin: 10px 0;
+    }
+    
+    .outcome-label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #4a5568;
+        margin-bottom: 20px;
+    }
+
+    .sdg-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+    }
+
+    .sdg-list li {
+        margin-bottom: 5px;
+        font-size: 0.95rem;
+        color: #4a5568;
+    }
+
+    .sdg-list strong {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--green-700);
+        transition: color 0.3s;
+        min-width: 30px; /* Helps keep alignment */
+        display: inline-block;
+        text-align: right;
+        margin-right: 5px;
+    }
+
+    /* --- Media Query for Mobile --- */
+    @media (max-width: 900px) {
+        .scrollytelling-container {
+            flex-direction: column;
+        }
+
+        .left-panel {
+            padding-right: 0;
+            position: relative; /* Remove sticky on mobile */
+            height: auto;
+        }
+
+        .sticky-content {
+            position: static;
+            height: auto;
+        }
+
+        .right-panel {
+            min-height: auto;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .sdg-step {
+            min-height: auto; /* Reset min-height for mobile */
+            margin-bottom: 40px; /* Smaller margin for mobile */
+        }
+        
+        .outcome-card {
+            max-width: 100%;
+        }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const impactSection = document.getElementById('impact');
+        const outcomeCard = impactSection.querySelector('.outcome-card');
+        const placeholder = outcomeCard.querySelector('.outcome-title-placeholder');
+        const sdgSteps = impactSection.querySelectorAll('.sdg-step');
+        const mainCounters = outcomeCard.querySelectorAll('.outcome-counter-group');
+        
+        const COUNTER_DURATION = 2000; // ms
+        
+        // --- Counter Animation Function ---
+        const animateCounter = (element, targetValue) => {
+            // Check if the element already has an active animation ID
+            if (element.animationId) {
+                cancelAnimationFrame(element.animationId);
+            }
+            
+            const start = performance.now();
+            
+            function step(now) {
+                let progress = Math.min((now - start) / COUNTER_DURATION, 1);
+                // Easing function: easeOutCubic
+                const eased = 1 - Math.pow(1 - progress, 3); 
+                let currentValue = eased * targetValue;
+                
+                // Format the number based on size (e.g., add commas)
+                if (targetValue >= 1000) {
+                    element.textContent = Math.floor(currentValue).toLocaleString();
+                } else if (element.hasAttribute('data-list-target') && targetValue === 1) { 
+                    // Special case for the "1.2 tons" list item (data-list-target="1")
+                    element.textContent = (currentValue * 1.2).toFixed(1);
+                } else {
+                    element.textContent = Math.floor(currentValue);
+                }
+                
+                if (progress < 1) {
+                    element.animationId = requestAnimationFrame(step);
+                } else {
+                    element.animationId = null;
+                }
+            }
+            element.animationId = requestAnimationFrame(step);
+        };
+
+        // --- Intersection Observer for Scrollytelling ---
+        const scrollyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const targetSDG = entry.target.getAttribute('data-sdg');
+                
+                // If the step is in the middle of the viewport (the intersection point)
+                if (entry.isIntersecting) {
+                    // 1. Update the Active Step on the Right
+                    sdgSteps.forEach(step => step.classList.remove('active'));
+                    entry.target.classList.add('active');
+
+                    // 2. Update the Left Panel
+                    placeholder.style.opacity = '0'; // Hide the 'Scroll to see' text
+                    
+                    mainCounters.forEach(counterGroup => {
+                        counterGroup.classList.remove('active');
+                        // Show the counter group that matches the active SDG
+                        if (counterGroup.getAttribute('data-sdg') === targetSDG) {
+                            counterGroup.classList.add('active');
+                            const counterElement = counterGroup.querySelector('.outcome-counter');
+                            const target = +counterElement.getAttribute('data-target');
+                            animateCounter(counterElement, target);
+                        }
+                    });
+
+                    // 3. Animate the list items in the active step
+                    const listCounters = entry.target.querySelectorAll('.sdg-list strong');
+                    listCounters.forEach(listCounter => {
+                        const target = +listCounter.getAttribute('data-list-target');
+                        animateCounter(listCounter, target);
+                    });
+
+                } else if (window.scrollY < impactSection.offsetTop + 10 && targetSDG === '9') {
+                    // Reset to initial state when scrolling *before* the first step
+                    placeholder.style.opacity = '1';
+                    mainCounters.forEach(c => c.classList.remove('active'));
+                    sdgSteps.forEach(s => s.classList.remove('active'));
+                }
+            });
+        }, {
+            // Root Margin is key for controlling where the 'active' state is triggered
+            // Use a large top margin and small bottom margin to trigger when the step hits the top 1/3 of the screen.
+            rootMargin: '-30% 0px -60% 0px', 
+            threshold: 0 // Threshold is 0 because we rely on rootMargin
+        });
+
+        // Attach observer to each SDG step on the right
+        sdgSteps.forEach(step => scrollyObserver.observe(step));
+        
+        // --- Parallax Effect (Keep existing logic) ---
+        window.addEventListener('scroll', () => {
+            const rect = impactSection.getBoundingClientRect();
+            // Calculate scroll position relative to the section start
+            const scrollPos = window.innerHeight - rect.top; 
+            const offset = scrollPos * -0.08; 
+            impactSection.querySelector('.parallax-bg').style.setProperty('--offset', offset + 'px');
+        });
+
+    });
+</script>
+<!-- LEARN -->
+<section aria-labelledby="learnHeading" class="section" data-section="" id="learn">
+<div class="section__header">
+<h2 id="learnHeading">Learn — Guides, research, FAQs</h2>
+<div class="meta">Educational content &amp; myth-busting</div>
+</div>
+<div class="card">
+<h3>Let's Talk Compostly</h3>
+<p class="muted">Weekly tips, myth vs fact, DIY and civic hacks. Subscribe to the newsletter or WhatsApp list.</p>
+<div style="margin-top:12px;">
+<button class="btn ghost" data-action="subscribe">Subscribe</button>
+<button class="btn" data-action="download-guide">Download Teacher Guide (PDF)</button>
+</div>
+</div>
+<div class="card" style="margin-top:12px;">
+<h3>Research &amp; Validation</h3>
+<p class="muted">Lay summaries and citations (IPCC / FAO / ICAR style) available in the CMS phase.</p>
+</div>
+</section>
+<!-- ABOUT -->
+<section aria-labelledby="aboutHeading" class="section" data-section="" id="about">
+<div class="section__header">
+<h2 id="aboutHeading">About — Story, mission, team</h2>
+<div class="meta">Built in Ludhiana, for a greener India.</div>
+</div>
+<div class="card">
+<h3>Our Story</h3>
+<p class="muted">From a Ludhiana school build to an innovation aiming to restore soil life and end organic waste to landfill.</p>
+<h4 style="margin-top:12px">Mission</h4>
+<p>Restore soil life &amp; create circular organics in urban systems.</p>
+</div>
+</section>
+<!-- SHOP -->
+<section aria-labelledby="shopHeading" class="section" data-section="" id="shop">
+<div class="section__header">
+<h2 id="shopHeading">Shop — Phase 2 (WhatsApp / Razorpay)</h2>
+<div class="meta">Light commerce via DM/WhatsApp integration.</div>
+</div>
+<div class="grid-3">
+<div class="card">
+<h3>Vermicompost — 5kg</h3>
+<p class="muted">Organic, sieved, ready-to-use.</p>
+<div style="margin-top:10px">
+<button class="btn" data-action="buy" data-product="Vermicompost-5kg">Buy via WhatsApp</button>
+</div>
+</div>
+<div class="card">
+<h3>Vermiwash — 1L</h3>
+<p class="muted">Liquid fertilizer concentrate.</p>
+<div style="margin-top:10px">
+<button class="btn" data-action="buy" data-product="Vermiwash-1L">Buy via WhatsApp</button>
+</div>
+</div>
+<div class="card">
+<h3>Vermisticks Combo</h3>
+<p class="muted">Slow-release soil nutrition sticks.</p>
+<div style="margin-top:10px">
+<button class="btn" data-action="buy" data-product="Vermisticks-Combo">Buy via WhatsApp</button>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<section aria-labelledby="contactHeading" class="section" data-section="" id="contact">
+<div class="section__header">
+<h2 id="contactHeading">Contact / Book a Demo</h2>
+<div class="meta">Primary lead forms &amp; newsletter</div>
+</div>
+<form class="card" id="contactForm" novalidate="">
+<div class="form-row">
+<div class="form-control">
+<label for="name">Name</label>
+<input id="name" name="name" placeholder="Your full name" required="" type="text"/>
+</div>
+<div class="form-control">
+<label for="org">Organization / RWA</label>
+<input id="org" name="org" placeholder="Organization or 'Home'" type="text"/>
+</div>
+</div>
+<div class="form-row" style="margin-top:10px;">
+<div class="form-control">
+<label for="city">City</label>
+<input id="city" name="city" placeholder="Ludhiana" required="" type="text"/>
+</div>
+<div class="form-control">
+<label for="phone">Phone</label>
+<input id="phone" name="phone" placeholder="+91 98XXXXXXXX" required="" type="text"/>
+</div>
+</div>
+<div class="form-control" style="margin-top:10px;">
+<label for="usecase">Use-case</label>
+<select id="usecase" name="usecase" required="">
+<option value="">Select use-case</option>
+<option>Home / RWA</option>
+<option>School / College</option>
+<option>Farm / Nursery</option>
+<option>Municipal Pilot</option>
+<option>Hotel / Business</option>
+</select>
+</div>
+<div class="form-control" style="margin-top:10px;">
+<label for="message">Message</label>
+<textarea id="message" name="message" placeholder="Preferred slot, questions..."></textarea>
+</div>
+<div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+<button class="btn" type="submit">Request Demo</button>
+<button class="btn ghost" data-action="download-brochure" type="button">Download Brochure</button>
+<div class="muted" style="margin-left:auto;">Or WhatsApp: <a href="https://wa.me/919915999150" rel="noopener" target="_blank">+91 99159 99150</a></div>
+</div>
+</form>
+</section>
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+<div class="site footer-inner">
+<div>
+<strong>Prithvi Rakshak</strong> — Built in Ludhiana, for a greener India.
+          <div class="muted" style="margin-top:8px;">© <span id="year"></span> Team Prithvi Rakshak</div>
+</div>
+<div style="display:flex; gap:12px; align-items:center;">
+<a class="ghost" href="#privacy">Privacy</a>
+<a class="ghost" href="#terms">T&amp;C</a>
+<div class="muted">Contact: hello@prithvi.akshat</div>
+</div>
+</div>
+</footer>
+</main>
+<!-- TOAST -->
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<!-- Floating Chat -->
+<button aria-label="Open chat" class="chat-btn" id="chatBtn">💬</button>
+<div aria-label="Site chatbot" class="chat-panel" id="chatPanel" role="dialog">
+<div style="display:flex; align-items:center; justify-content:space-between; padding:12px; border-bottom:1px solid rgba(0,0,0,0.04);">
+<strong>Prithvi Assistant</strong>
+<button aria-label="Close chat" class="btn ghost" id="chatClose">Close</button>
+</div>
+<div aria-live="polite" class="chat-messages" id="chatMessages">
+<div class="msg bot">Hi — I can help with booking demos, product info, and impact counters. Try "Book demo Ludhiana".</div>
+</div>
+<div style="display:flex; gap:8px; padding:10px;">
+<input id="chatInput" placeholder="Type a message..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.06);"/>
+<button class="btn" id="chatSend">Send</button>
+</div>
+</div>
+<!-- Accessibility: provide noscript fallback -->
+<noscript>
+<style>
+      /* If JS disabled, show all sections */
+      .section{ opacity:1 !important; transform:none !important; height:auto !important; padding:var(--space-l) !important; pointer-events:auto !important; }
+      .nav-list{ display:flex !important; }
+      .hamburger{ display:none !important; }
+    </style>
+<div style="padding:12px; background:#fff3cd; border-left:4px solid #ffe08a; margin:12px; border-radius:6px;">
+      JavaScript is disabled — this page will not have interactive reveal animations but remains navigable via anchor links.
+    </div>
+</noscript>
+<!-- =========================
+       JavaScript: behavior and interactions
+       ========================= -->
+<script>
+  (function(){
+    'use strict';
+    // Immediately remove .no-js class to enable JS-mode behavior
+    document.documentElement.classList.remove('no-js');
+
+    // Basic cached selectors
+    const navLinks = Array.from(document.querySelectorAll('[data-target]'));
+    const sections = Array.from(document.querySelectorAll('[data-section]'));
+    const toast = document.getElementById('toast');
+    const themeToggle = document.getElementById('themeToggle');
+    const yearSpan = document.getElementById('year');
+    const hamburger = document.getElementById('hamburger');
+    const mobilePanel = document.getElementById('mobilePanel');
+    const mobileClose = document.getElementById('mobileClose');
+    const bookDemoBtns = document.querySelectorAll('[data-action="book-demo"], [data-action="demo"]');
+    const shopNow = document.getElementById('shopNow');
+
+    yearSpan.textContent = new Date().getFullYear();
+
+    // ---------- THEME HANDLING ----------
+    (function initTheme(){
+      const saved = localStorage.getItem('prithvi_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initial = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', initial);
+      themeToggle.setAttribute('aria-pressed', initial === 'dark');
+      themeToggle.addEventListener('click', toggleTheme);
+    })();
+
+    function toggleTheme(){
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('prithvi_theme', next);
+      themeToggle.setAttribute('aria-pressed', next === 'dark');
+      // gentle feedback
+      playClickTone();
+      showToast('Theme switched to ' + next, 1500);
+    }
+
+    // ---------- NAV & SECTION REVEAL ----------
+    // By default (JS present) hide all sections until user clicks
+    sections.forEach(sec => {
+      sec.classList.remove('is-visible'); // ensure starting state hidden
+      // ensure accessible tab stops inside hidden areas are removed
+      sec.setAttribute('aria-hidden', 'true');
+    });
+
+    function revealSectionById(id, opts={ pushHistory:true, focus:true }){
+      const target = document.getElementById(id);
+      if(!target) return;
+      // Hide currently visible sections
+      sections.forEach(s => {
+        if(s === target) return;
+        s.classList.remove('is-visible');
+        s.classList.remove('animate');
+        s.setAttribute('aria-hidden', 'true');
+      });
+
+      // Show target and trigger animation (restartable)
+      target.classList.add('is-visible');
+      // force reflow so we can re-add animation class to restart it
+      void target.offsetWidth;
+      target.classList.add('animate');
+      target.setAttribute('aria-hidden', 'false');
+
+      // focus management: move focus to heading for keyboard users
+      if(opts.focus){
+        const heading = target.querySelector('h2, h1');
+        if(heading){
+          // move focus with tabindex trick
+          heading.setAttribute('tabindex', '-1');
+          heading.focus({preventScroll:true});
+          // cleanup tabindex after some time
+          setTimeout(()=> heading.removeAttribute('tabindex'), 800);
+        }
+      }
+
+      // update nav active states
+      updateActiveNav(id);
+
+      // update URL hash/history
+      if(opts.pushHistory){
+        const newUrl = '#' + id;
+        history.pushState({section:id}, '', newUrl);
+      }
+
+      // Scroll into view smoothly as fallback (works even if animation plays)
+      
+            // Ensure section appears directly below header without offset
+            const headerHeight = document.querySelector('header.site-header').offsetHeight;
+            window.scrollTo({ top: target.offsetTop - headerHeight, behavior: 'smooth' });
+            
+    }
+
+    // update active link aria/current
+    function updateActiveNav(id){
+      navLinks.forEach(a => {
+        const target = a.dataset.target;
+        if(target === id){
+          a.setAttribute('aria-current', 'true');
+        } else {
+          a.setAttribute('aria-current', 'false');
+        }
+      });
+    }
+
+    // Link click handlers
+    navLinks.forEach(a => {
+      a.addEventListener('click', (e)=>{
+        // If the href is an actual anchor, let this be handled but still run reveal when JS present
+        const id = a.dataset.target;
+        // Close mobile menu if open
+        closeMobile();
+        revealSectionById(id, { pushHistory:true, focus:true });
+        e.preventDefault();
+      });
+    });
+
+    // handle browser navigation (back/forward)
+    window.addEventListener('popstate', (ev)=>{
+      const id = (location.hash && location.hash.replace('#','')) || 'home';
+      revealSectionById(id, { pushHistory:false, focus:false });
+    });
+
+    // On load, reveal initial section from hash or home
+    const initial = (location.hash && location.hash.replace('#','')) || 'home';
+    // slight delay to ensure CSS transitions are ready
+    setTimeout(()=> revealSectionById(initial, { pushHistory:false, focus:false }), 120);
+
+    // keyboard shortcuts: Ctrl + ArrowDown/Up to move through sections
+    window.addEventListener('keydown', (e)=>{
+      if(!e.ctrlKey) return;
+      if(e.key === 'ArrowDown' || e.key === 'ArrowRight'){
+        e.preventDefault();
+        navigateSection(1);
+      } else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        navigateSection(-1);
+      }
+    });
+
+    function navigateSection(direction){
+      const visibleIndex = sections.findIndex(s => s.classList.contains('is-visible'));
+      let nextIndex = visibleIndex + direction;
+      if(nextIndex < 0) nextIndex = 0;
+      if(nextIndex >= sections.length) nextIndex = sections.length - 1;
+      const id = sections[nextIndex].id;
+      revealSectionById(id);
+    }
+
+    // ---------- MOBILE PANEL & FOCUS TRAP ----------
+    hamburger.addEventListener('click', (e)=>{
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      if(expanded) closeMobile(); else openMobile();
+    });
+    mobileClose.addEventListener('click', closeMobile);
+
+    function openMobile(){
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobilePanel.setAttribute('aria-hidden','false');
+      mobilePanel.style.display = 'flex';
+      // trap focus: move focus to first link inside panel
+      const firstLink = mobilePanel.querySelector('a');
+      if(firstLink) firstLink.focus();
+      // key handlers for escape
+      document.addEventListener('keydown', mobileKeyHandler);
+    }
+    function closeMobile(){
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobilePanel.setAttribute('aria-hidden','true');
+      mobilePanel.style.display = 'none';
+      hamburger.focus();
+      document.removeEventListener('keydown', mobileKeyHandler);
+    }
+    function mobileKeyHandler(e){
+      if(e.key === 'Escape') closeMobile();
+    }
+
+    // Mobile panel links should trigger reveal too
+    mobilePanel.querySelectorAll('a[data-target]').forEach(a=>{
+      a.addEventListener('click', (ev)=>{
+        const id = a.dataset.target;
+        revealSectionById(id);
+        closeMobile();
+        ev.preventDefault();
+      });
+    });
+
+    // ---------- BOOK DEMO BUTTONS ----------
+    bookDemoBtns.forEach(b => {
+      b.addEventListener('click', () => {
+        // Show contact section and prefill message
+        revealSectionById('contact');
+        setTimeout(()=>{
+          const message = document.getElementById('message');
+          message.value = (b.dataset.product ? `Interested in ${b.dataset.product}. ` : '') + 'Please share pilot/demo slots.';
+        }, 200);
+      });
+    });
+
+    // Shop button opens WhatsApp with new number
+    shopNow.addEventListener('click', ()=> {
+      const phoneNumber = '919915999150'; // ✅ +91 99159 99150 (without spaces or +)
+      const message = 'Hi, I want to buy/practice. - Prithvi Rakshak demo.';
+      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank', 'noopener');
+    });
+
+    // ---------- CONTACT FORM VALIDATION & SIMULATED SEND ----------
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const formData = new FormData(contactForm);
+      const name = formData.get('name').trim();
+      const city = formData.get('city').trim();
+      const phone = formData.get('phone').trim();
+      const usecase = formData.get('usecase');
+      // simple validation
+      if(!name || !city || !phone || !usecase){
+        showToast('Please fill required fields (Name, City, Phone, Use-case).', 3000);
+        playErrorTone();
+        return;
+      }
+      // show simulated sending animation + sound
+      showToast('Sending...', 0);
+      playSendTone();
+      // simulate network delay
+      setTimeout(()=>{
+        // success
+        toast.classList.remove('show');
+        showToast('Demo request received — we will contact you shortly!', 4000);
+        // clear form or leave data
+        contactForm.reset();
+        // analytics event placeholder
+        console.log('Simulated form submit', {name, city, phone, usecase});
+      }, 1200);
+    });
+
+    // Download brochure (simulate file download via Blob)
+    document.querySelectorAll('[data-action="download-brochure"], [data-action="download-guide"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const text = `Prithvi Rakshak — Brochure
+Owner: Team Prithvi Rakshak
+Products: VermiKendra 2.0, Vermi-IntelliMix, Vermicompost, Vermiwash, Vermisticks
+Contact: hello@prithvi.akshat`;
+        const blob = new Blob([text], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'PrithviAkshat_brochure.txt';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+        showToast('Brochure downloaded (simulated).', 2000);
+      });
+    });
+
+    // Buy buttons trigger WhatsApp (fixed number)
+    document.querySelectorAll('[data-action="buy"]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const product = btn.dataset.product || 'product';
+        const phone = '919915999150'; // +91 99159 99150
+        const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(`Hi, I'm interested in ${product}.`);
+        window.open(url, '_blank', 'noopener');
+      });
+    });
+
+    // Simple "specs" modal simulation via toast
+    document.querySelectorAll('[data-action="specs"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const product = btn.dataset.product || 'Product';
+        showToast(product + ' — Specs shown in brochure. Click Download Brochure.', 3000);
+      });
+    });
+
+    // Read case
+    document.querySelectorAll('[data-action="read-case"]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        revealSectionById('impact');
+        showToast('Opening case snapshot...', 1200);
+      });
+    });
+
+    // Subscribe simulation
+    const subscribeBtn = document.querySelector('[data-action="subscribe"]');
+    if(subscribeBtn){
+      subscribeBtn.addEventListener('click', ()=>{
+        showToast('Subscribed to compost tips (simulated).', 1800);
+      });
+    }
+
+    // ---------- Counters (animated) ----------
+    let counts = { waste:12452, compost:4232, co2:5012 };
+    function easeOutQuad(t){ return t*(2-t); }
+    function animateCounters(duration=1200){
+      const start = performance.now();
+      const sWaste = document.getElementById('counterWaste');
+      const sCompost = document.getElementById('counterCompost');
+      const sCO2 = document.getElementById('counterCO2');
+      function frame(now){
+        const t = Math.min(1, (now - start)/duration);
+        sWaste.textContent = Math.round(easeOutQuad(t) * counts.waste);
+        sCompost.textContent = Math.round(easeOutQuad(t) * counts.compost);
+        sCO2.textContent = Math.round(easeOutQuad(t) * counts.co2);
+        if(t < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    // Trigger counters when impact section becomes visible
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting && e.target.id === 'impact'){
+          // set final values into counts
+          counts = { waste:12452, compost:4232, co2:5012 };
+          animateCounters();
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold:0.4 });
+    obs.observe(document.getElementById('impact'));
+
+    // ---------- Toast helper ----------
+    let toastTimer = null;
+    function showToast(msg, duration=2000){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      if(toastTimer) clearTimeout(toastTimer);
+      if(duration>0){
+        toastTimer = setTimeout(()=> toast.classList.remove('show'), duration);
+      }
+    }
+
+    // ---------- Small audio feedback (WebAudio API) ----------
+    const audioCtx = (typeof AudioContext !== 'undefined') ? new AudioContext() : null;
+    function playTone(freq=440, type='sine', time=0.08){
+      if(!audioCtx) return;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = type; o.frequency.value = freq;
+      o.connect(g); g.connect(audioCtx.destination);
+      g.gain.value = 0.0001;
+      const now = audioCtx.currentTime;
+      g.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
+      o.start(now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + time);
+      o.stop(now + time + 0.02);
+    }
+    function playClickTone(){ playTone(780,'sine',0.06); }
+    function playSendTone(){ playTone(520,'triangle',0.14); }
+    function playErrorTone(){ playTone(220,'sawtooth',0.3); }
+
+    // ---------- Simple Chatbot (local simulated) ----------
+    const chatBtn = document.getElementById('chatBtn');
+    const chatPanel = document.getElementById('chatPanel');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    chatBtn.addEventListener('click', ()=> toggleChat(true));
+    chatClose.addEventListener('click', ()=> toggleChat(false));
+    chatSend.addEventListener('click', sendChat);
+    chatInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') sendChat(); });
+
+    function toggleChat(open){
+      if(open){
+        chatPanel.classList.add('open');
+        chatInput.focus();
+      } else {
+        chatPanel.classList.remove('open');
+        chatBtn.focus();
+      }
+    }
+
+    function sendChat(){
+      const text = chatInput.value.trim();
+      if(!text) return;
+      appendMessage('user', text);
+      chatInput.value = '';
+      // simple simulated bot response rules
+      setTimeout(()=> {
+        const lower = text.toLowerCase();
+        if(lower.includes('book') || lower.includes('demo')){
+          appendMessage('bot', 'Sure — share your city & preferred slots. I can schedule a demo in Ludhiana or nearby.');
+        } else if(lower.includes('price') || lower.includes('buy')){
+          appendMessage('bot', 'Pricing depends on configuration. Please press Buy on product cards or DM on WhatsApp for quotes.');
+        } else if(lower.includes('impact') || lower.includes('co2')){
+          appendMessage('bot', 'Our live dashboard shows kg diverted & compost produced. I can open the Impact section for you.');
+          revealSectionById('impact');
+        } else {
+          appendMessage('bot', 'Thanks! We will connect soon. For rapid response, use WhatsApp: +91 99159 99150.');
+        }
+      }, 650);
+    }
+
+    function appendMessage(who, text){
+      const div = document.createElement('div');
+      div.className = 'msg ' + (who === 'bot' ? 'bot' : 'user');
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // ---------- Accessibility: ensure all interactive elements focusable and have aria labels ----------
+    // Already added many ARIA attributes; ensure anchor focus highlights are visible
+
+    // ---------- Performance considerations ----------
+    // Minimal DOM queries (cached above), listeners are removed in closeMobile etc
+
+    // ---------- Small decorative: sound for nav clicks ----------
+    navLinks.forEach(a => a.addEventListener('click', ()=> playClickTone()));
+
+    // ---------- Ensure every button has some function: fallback no-op to avoid dead buttons ----------
+    document.querySelectorAll('button').forEach(btn => {
+      if(!btn.hasAttribute('data-action') && btn.id !== 'themeToggle' && btn.id !== 'hamburger' && btn.id !== 'mobileClose' && btn.id !== 'chatBtn' && btn.id !== 'chatClose'){
+        btn.addEventListener('click', ()=> {
+          // gentle confirmation toast so no button is dead
+          playClickTone();
+          showToast('Action: ' + (btn.textContent||btn.getAttribute('title')||'clicked'), 1200);
+        });
+      }
+    });
+
+    // End of IIFE
+  })();
+  </script>
+<!-- Supabase integration -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://hfysihglwdxzgdtejcsn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmeXNpaGdsd2R4emdkdGVqY3NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEyODc2NzMsImV4cCI6MjA3Njg2MzY3M30.MaTUBJPXB0s5aC_sslqhHEWuGvumPg-PPhN4dt_xi0E';
+
+// Initialize Supabase client
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ---------- Test connection ----------
+async function testConnection() {
+  console.log('🔍 Testing Supabase connection...');
+  try {
+    const { data, error } = await supabaseClient.from('Vermicompost').select('*').limit(1);
+    if (error) {
+      console.error('❌ Connection error:', error);
+    } else {
+      console.log('✅ Connected! Sample records found:', Array.isArray(data) ? data.length : 0);
+      console.log('📦 Data (sample):', data);
+    }
+  } catch (err) {
+    console.error('❌ Supabase exception:', err);
+  }
+}
+
+// ---------- Override existing contact form handler with Supabase submit ----------
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 Supabase initializing...');
+  testConnection();
+
+  // Get the form
+  const contactForm = document.getElementById('contactForm');
+
+  if (contactForm) {
+    // Remove all existing submit listeners by cloning
+    const newForm = contactForm.cloneNode(true);
+    contactForm.parentNode.replaceChild(newForm, contactForm);
+
+    // Add new Supabase submit handler
+    newForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        org: formData.get('org'),
+        city: formData.get('city'),
+        phone: formData.get('phone'),
+        usecase: formData.get('usecase'),
+        message: formData.get('message')
+      };
+
+      console.log('📤 Submitting to Supabase:', data);
+
+      // Validate required fields
+      if (!data.name || !data.city || !data.phone || !data.usecase) {
+        alert('❌ Please fill all required fields: Name, City, Phone, and Use-case');
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn ? submitBtn.textContent : 'Sending...';
+      if (submitBtn) { submitBtn.textContent = 'Sending...'; submitBtn.disabled = true; }
+
+      try {
+        const { data: result, error } = await supabaseClient
+          .from('Vermicompost')
+          .insert([data])
+          .select();
+
+        if (error) {
+          console.error('❌ Supabase Error:', error);
+          alert('❌ Error: ' + (error.message || JSON.stringify(error)));
+        } else {
+          console.log('✅ Success:', result);
+          alert('✅ Demo request saved successfully! We will contact you soon.');
+          form.reset();
+        }
+      } catch (err) {
+        console.error('❌ Exception:', err);
+        alert('❌ Error submitting form. Please try again.');
+      } finally {
+        if (submitBtn) { submitBtn.textContent = originalText; submitBtn.disabled = false; }
+      }
+    });
+  }
+
+  // Display submissions (optional - for admin view)
+  displaySubmissions();
+});
+
+// ---------- Fetch all submissions ----------
+async function fetchAllSubmissions() {
+  console.log('📥 Fetching all submissions...');
+  try {
+    const { data, error } = await supabaseClient
+      .from('Vermicompost')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    if (error) {
+      console.error('❌ Fetch error:', error);
+      return [];
+    }
+
+    console.log('✅ Fetched submissions:', data);
+    return data || [];
+  } catch (err) {
+    console.error('❌ Exception fetching submissions:', err);
+    return [];
+  }
+}
+
+// ---------- Display submissions (optional) ----------
+async function displaySubmissions() {
+  const submissions = await fetchAllSubmissions();
+
+  const container = document.getElementById('submissionsContainer');
+  if (!container) {
+    console.warn('⚠️ No container element found - skipping display');
+    return;
+  }
+
+  if (!submissions || submissions.length === 0) {
+    container.innerHTML = '<div style="padding:12px;border-radius:8px;background:#fff3cd;border:1px solid #ffe08a;">No submissions found.</div>';
+    return;
+  }
+
+  const rows = submissions.map(s => {
+    const created = s.created_at ? new Date(s.created_at).toLocaleString() : '';
+    return `
+      
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = rows;
+}
+
+// small helper to avoid injecting raw HTML
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>"'`=\/]/g, function(s) {
+    return ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;', '/':'&#x2F;', '`':'&#x60;', '=':'&#x3D;'
+    })[s];
+  });
+}
+</script>
+<!-- Optional: Add this after the footer to display submissions (for admin view) -->
+<!-- You can remove this if you don't want to show submissions on the public page -->
+<div id="submissionsContainer" style="max-width:1200px;margin:40px auto;padding:0 20px;"></div>
+<!-- ✅ AI Chatbot Floating Button -->
+<style>
+  /* Floating Chat Button */
+  #chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0078ff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    font-size: 28px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 9999;
+  }
+
+  /* Chat Window */
+  #chatbot-window {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    height: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    overflow: hidden;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+  }
+
+  #chatbot-header {
+    background: #0078ff;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  #chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .message {
+    margin: 6px 0;
+    padding: 8px;
+    border-radius: 10px;
+    max-width: 80%;
+  }
+
+  .user {
+    background: #0078ff;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+  }
+
+  .bot {
+    background: #f1f1f1;
+    color: #333;
+    align-self: flex-start;
+  }
+
+  #chatbot-input-area {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+
+  #chatbot-input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    outline: none;
+  }
+
+  #chatbot-send {
+    background: #0078ff;
+    color: white;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+  }
+</style>
+<!-- Chat Button -->
+<button id="chatbot-button">💬</button>
+<!-- Chat Window -->
+<div id="chatbot-window">
+<div id="chatbot-header">AI Assistant</div>
+<div id="chatbot-messages"></div>
+<div id="chatbot-input-area">
+<input id="chatbot-input" placeholder="Type a message..." type="text"/>
+<button id="chatbot-send">➤</button>
+</div>
+</div>
+<script>
+const API_URL = "https://api.chatanywhere.tech/v1/chat/completions";
+const API_KEY = "sk-3gJw3Qy9H1UwRZCoKiBnDRxAnio78irbNr9mXlNrrJvXgBc4";
+
+const button = document.getElementById("chatbot-button");
+const windowBox = document.getElementById("chatbot-window");
+const input = document.getElementById("chatbot-input");
+const sendBtn = document.getElementById("chatbot-send");
+const messages = document.getElementById("chatbot-messages");
+
+button.addEventListener("click", () => {
+  windowBox.style.display = windowBox.style.display === "flex" ? "none" : "flex";
+});
+
+sendBtn.addEventListener("click", sendMessage);
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  appendMessage(text, "user");
+  input.value = "";
+
+  appendMessage("Typing...", "bot");
+  
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: text }],
+      }),
+    });
+
+    const data = await response.json();
+    messages.lastChild.textContent = data.choices?.[0]?.message?.content?.trim() || "Error: No response";
+  } catch (err) {
+    messages.lastChild.textContent = "Error: " + err.message;
+  }
+
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function appendMessage(content, sender) {
+  const div = document.createElement("div");
+  div.classList.add("message", sender);
+  div.textContent = content;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+</script>
+<script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script></body>
+</html>
+
